@@ -197,12 +197,25 @@
     }
     .hero-viewer-wrap {
       position: relative;
-      animation: float 8s ease-in-out infinite;
-      filter: drop-shadow(0 24px 64px rgba(28,92,230,0.3));
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #1a2d4a;
+      box-shadow: 0 24px 80px rgba(28,92,230,0.25), 0 0 0 1px rgba(28,92,230,0.15);
+      aspect-ratio: 16 / 10;
     }
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate3d(0,1,0,0deg); }
-      50%       { transform: translateY(-14px) rotate3d(0,1,0,0deg); }
+    .hero-viewer-wrap iframe {
+      width: 100%; height: 100%;
+      border: none; display: block;
+    }
+    .viewer-label {
+      position: absolute;
+      bottom: 14px; right: 16px;
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.1em;
+      color: rgba(72,148,255,0.6);
+      pointer-events: none;
+      text-transform: uppercase;
     }
 
     /* Scroll indicator */
@@ -957,131 +970,15 @@
 
       <div class="hero-right fade-in-3">
         <div class="hero-viewer-wrap">
-          <!--
-            Matterport-style dollhouse viewer mockup.
-            Isometric formula: sx = 210 + (col-row)*22,  sy = 130 + (col+row)*12
-            Apartment: 8 cols × 5 rows.  Wall height: 48px up.
-          -->
-          <svg width="440" height="380" viewBox="0 0 440 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <clipPath id="vc"><rect width="440" height="380" rx="10"/></clipPath>
-            </defs>
-
-            <!-- ── Viewer frame ── -->
-            <rect width="440" height="380" rx="10" fill="#08111f" clip-path="url(#vc)"/>
-            <rect width="440" height="380" rx="10" fill="none" stroke="#1a2d4a" stroke-width="1"/>
-
-            <!-- ── Top toolbar ── -->
-            <rect width="440" height="38" fill="#0c1a2e"/>
-            <circle cx="18" cy="19" r="4" fill="#ff5f57"/>
-            <circle cx="30" cy="19" r="4" fill="#ffbd2e"/>
-            <circle cx="42" cy="19" r="4" fill="#28c840"/>
-
-            <!-- Mode pills -->
-            <rect x="248" y="11" width="72" height="17" rx="3" fill="#1C5CE6"/>
-            <text x="284" y="22.5" font-family="'Geist Mono',monospace" font-size="8.5" fill="white" text-anchor="middle" letter-spacing="0.5">DOLLHOUSE</text>
-            <rect x="326" y="11" width="48" height="17" rx="3" fill="none" stroke="#243650" stroke-width="1"/>
-            <text x="350" y="22.5" font-family="'Geist Mono',monospace" font-size="8.5" fill="#4a6080" text-anchor="middle" letter-spacing="0.5">INSIDE</text>
-            <rect x="380" y="11" width="46" height="17" rx="3" fill="none" stroke="#243650" stroke-width="1"/>
-            <text x="403" y="22.5" font-family="'Geist Mono',monospace" font-size="8.5" fill="#4a6080" text-anchor="middle" letter-spacing="0.5">PLAN</text>
-            <line x1="0" y1="38" x2="440" y2="38" stroke="#1a2d4a" stroke-width="1"/>
-
-            <!-- ── Floor (isometric rhombus) ── -->
-            <polygon points="210,130 386,226 276,286 100,190" fill="#0d1e32"/>
-
-            <!-- Floor grid -->
-            <g stroke="#122030" stroke-width="0.5">
-              <line x1="232" y1="142" x2="122" y2="202"/>
-              <line x1="254" y1="154" x2="144" y2="214"/>
-              <line x1="276" y1="166" x2="166" y2="226"/>
-              <line x1="298" y1="178" x2="188" y2="238"/>
-              <line x1="320" y1="190" x2="210" y2="250"/>
-              <line x1="342" y1="202" x2="232" y2="262"/>
-              <line x1="364" y1="214" x2="254" y2="274"/>
-              <line x1="188" y1="142" x2="364" y2="238"/>
-              <line x1="166" y1="154" x2="342" y2="250"/>
-              <line x1="144" y1="166" x2="320" y2="262"/>
-              <line x1="122" y1="178" x2="298" y2="274"/>
-            </g>
-
-            <!-- ── Back walls ── -->
-            <polygon points="210,82 386,178 386,226 210,130" fill="#122030"/>
-            <polygon points="210,82 100,142 100,190 210,130" fill="#0e1a2a"/>
-            <line x1="210" y1="82" x2="386" y2="178" stroke="#1e3050" stroke-width="1"/>
-            <line x1="210" y1="82" x2="100" y2="142" stroke="#1e3050" stroke-width="1"/>
-            <!-- Roof ridge (dashed) -->
-            <line x1="100" y1="142" x2="386" y2="178" stroke="#162440" stroke-width="0.5" stroke-dasharray="3,3"/>
-
-            <!-- ── Interior walls ── -->
-            <!-- Vertical room divider col=5 -->
-            <polygon points="320,190 210,250 210,202 320,142" fill="#0f1c2e" stroke="#1a2d44" stroke-width="0.5"/>
-            <!-- Horizontal divider row=3, col=5-8 -->
-            <polygon points="254,226 320,262 320,214 254,178" fill="#0f1c2e" stroke="#1a2d44" stroke-width="0.5"/>
-
-            <!-- ── Furniture ── -->
-            <!-- Sofa (living room) -->
-            <polygon points="210,146 254,170 232,182 188,158" fill="#162a40" stroke="#1e3a54" stroke-width="0.5"/>
-            <polygon points="188,150 232,174 232,182 188,158" fill="#1a3248"/>
-            <!-- Bed (bedroom) -->
-            <polygon points="331,198 375,222 342,240 298,216" fill="#162038" stroke="#1e2e4a" stroke-width="0.5"/>
-            <polygon points="331,195 342,201 342,240 331,234" fill="#1c2e46"/>
-            <!-- Kitchen counter -->
-            <polygon points="254,232 298,256 276,268 232,244" fill="#162430" stroke="#1c3040" stroke-width="0.5"/>
-
-            <!-- ── Scan point dots ── -->
-            <!-- Living room -->
-            <circle cx="199" cy="184" r="5.5" fill="white"/>
-            <circle cx="199" cy="184" r="5.5" fill="none" stroke="white" stroke-width="1.2" opacity="0.7">
-              <animate attributeName="r" values="5.5;24;5.5" dur="3s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="0.7;0;0.7" dur="3s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="199" cy="184" r="5.5" fill="none" stroke="white" stroke-width="0.7" opacity="0.35">
-              <animate attributeName="r" values="5.5;40;5.5" dur="3s" begin="0.35s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="0.35;0;0.35" dur="3s" begin="0.35s" repeatCount="indefinite"/>
-            </circle>
-            <!-- Bedroom -->
-            <circle cx="331" cy="228" r="4.5" fill="white"/>
-            <circle cx="331" cy="228" r="4.5" fill="none" stroke="white" stroke-width="1" opacity="0.6">
-              <animate attributeName="r" values="4.5;19;4.5" dur="3.5s" begin="1.1s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="0.6;0;0.6" dur="3.5s" begin="1.1s" repeatCount="indefinite"/>
-            </circle>
-            <!-- Kitchen -->
-            <circle cx="265" cy="256" r="4" fill="white"/>
-            <circle cx="265" cy="256" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.5">
-              <animate attributeName="r" values="4;16;4" dur="4s" begin="0.6s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="0.5;0;0.5" dur="4s" begin="0.6s" repeatCount="indefinite"/>
-            </circle>
-
-            <!-- ── Room labels ── -->
-            <text x="165" y="218" font-family="'Geist Mono',monospace" font-size="8" fill="#2a4a6a" text-anchor="middle" letter-spacing="0.6">WOHNEN</text>
-            <text x="332" y="222" font-family="'Geist Mono',monospace" font-size="7.5" fill="#2a4a6a" text-anchor="middle" letter-spacing="0.5">SCHLAFEN</text>
-            <text x="265" y="272" font-family="'Geist Mono',monospace" font-size="7.5" fill="#2a4a6a" text-anchor="middle" letter-spacing="0.5">KÜCHE</text>
-
-            <!-- ── Measurement annotation ── -->
-            <line x1="388" y1="178" x2="388" y2="226" stroke="#1C5CE6" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.7"/>
-            <line x1="384" y1="178" x2="392" y2="178" stroke="#1C5CE6" stroke-width="0.8" opacity="0.7"/>
-            <line x1="384" y1="226" x2="392" y2="226" stroke="#1C5CE6" stroke-width="0.8" opacity="0.7"/>
-            <text x="398" y="205" font-family="'Geist Mono',monospace" font-size="8" fill="#4894FF" opacity="0.8">2.8m</text>
-
-            <!-- ── Bottom status bar ── -->
-            <rect x="0" y="348" width="440" height="32" fill="#0c1a2e"/>
-            <rect x="0" y="348" width="440" height="1" fill="#1a2d4a"/>
-            <!-- Prev/next -->
-            <circle cx="28" cy="364" r="11" fill="#0f1e30" stroke="#1e3050" stroke-width="1"/>
-            <path d="M23,364 L30,357 L30,371 Z" fill="#4894FF"/>
-            <circle cx="54" cy="364" r="11" fill="#0f1e30" stroke="#1e3050" stroke-width="1"/>
-            <path d="M59,364 L52,357 L52,371 Z" fill="#2a4060"/>
-            <!-- Area badge -->
-            <rect x="160" y="356" width="120" height="16" rx="2" fill="#0f1e30" stroke="#1e3050" stroke-width="0.5"/>
-            <text x="220" y="367" font-family="'Geist Mono',monospace" font-size="8" fill="#4894FF" text-anchor="middle" letter-spacing="0.8">72 m² · 4 RÄUME</text>
-            <!-- Zoom -->
-            <circle cx="396" cy="364" r="11" fill="#0f1e30" stroke="#1e3050" stroke-width="1"/>
-            <text x="396" y="369" font-family="'Geist Mono',monospace" font-size="13" fill="#2a4060" text-anchor="middle">+</text>
-            <circle cx="422" cy="364" r="11" fill="#0f1e30" stroke="#1e3050" stroke-width="1"/>
-            <text x="422" y="368.5" font-family="'Geist Mono',monospace" font-size="9" fill="#2a4060" text-anchor="middle">⤢</text>
-            <!-- Branding watermark -->
-            <text x="383" y="340" font-family="'Geist Mono',monospace" font-size="9" fill="#1C5CE6" text-anchor="end" opacity="0.5" letter-spacing="1">WESCAN</text>
-          </svg>
+          <!-- Real Matterport embed — replace SxQL3iGyoDo with your own tour ID -->
+          <iframe
+            src="https://my.matterport.com/show/?m=SxQL3iGyoDo&play=1&qs=1&brand=0"
+            allowfullscreen
+            allow="xr-spatial-tracking; gyroscope; accelerometer"
+            loading="lazy"
+            title="WESCAN 3D Raumtour Demo">
+          </iframe>
+          <span class="viewer-label">Live Demo · 3D Tour</span>
         </div>
       </div>
     </div>
