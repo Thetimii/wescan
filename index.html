@@ -817,13 +817,17 @@
       .accent-bar { width: 3px; }
 
       /* Hero */
-      #hero { min-height: 100svh; }
+      #hero { min-height: auto; padding-bottom: 48px; }
       .hero-content {
         grid-template-columns: 1fr;
-        padding: 100px 24px 80px 32px;
-        gap: 0;
+        padding: 100px 24px 0 32px;
+        gap: 36px;
       }
-      .hero-right { display: none; }
+      .hero-right {
+        display: flex;
+        padding: 0 0px;
+      }
+      .hero-viewer-wrap { border-radius: 8px; }
       .hero-headline { font-size: clamp(52px, 14vw, 80px); }
       .hero-tagline  { font-size: 16px; }
       .hero-actions  { flex-direction: column; align-items: flex-start; gap: 12px; }
@@ -970,9 +974,9 @@
 
       <div class="hero-right fade-in-3">
         <div class="hero-viewer-wrap">
-          <!-- Real Matterport embed — replace SxQL3iGyoDo with your own tour ID -->
+          <!-- Real Matterport embed — replace j4RZx7ZGM6T with your own tour ID -->
           <iframe
-            src="https://my.matterport.com/show/?m=SxQL3iGyoDo&play=1&qs=1&brand=0"
+            src="https://my.matterport.com/show/?m=j4RZx7ZGM6T&play=1&qs=1&brand=0"
             allowfullscreen
             allow="xr-spatial-tracking; gyroscope; accelerometer"
             loading="lazy"
