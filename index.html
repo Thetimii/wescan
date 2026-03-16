@@ -655,6 +655,71 @@
       font-size: 15px; color: var(--fog); line-height: 1.6;
     }
 
+    /* ── Cal.com booking cards ───────────────────────────────────── */
+    .cal-booking-cards {
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .cal-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 3px; padding: 36px 40px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .cal-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; bottom: 0; width: 3px;
+      background: var(--blue);
+    }
+    .cal-card:hover { border-color: var(--blue); background: rgba(28,92,230,0.06); }
+    .cal-card-top {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 12px;
+    }
+    .cal-card-title {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 900;
+      color: #fff; letter-spacing: 0.02em;
+    }
+    .cal-card-price {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 900; color: var(--blue);
+    }
+    .cal-card-price span {
+      font-family: var(--font-mono);
+      font-size: 11px; color: var(--fog);
+      font-weight: 400; margin-left: 4px;
+    }
+    .cal-card-desc {
+      font-size: 14px; color: var(--fog);
+      line-height: 1.6; margin-bottom: 28px;
+    }
+    .cal-btn {
+      width: 100%; background: var(--blue);
+      color: #fff; border: none; border-radius: 2px;
+      padding: 16px 24px;
+      font-family: var(--font-body);
+      font-weight: 700; font-size: 14px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: background 0.2s, transform 0.15s;
+      position: relative; overflow: hidden;
+    }
+    .cal-btn::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: translateX(-100%); transition: transform 0.4s ease;
+    }
+    .cal-btn:hover::after { transform: translateX(100%); }
+    .cal-btn:hover { background: var(--blue-l); transform: translateY(-1px); }
+    .cal-btn-ghost {
+      background: transparent;
+      border: 1px solid var(--line); color: var(--fog);
+    }
+    .cal-btn-ghost:hover { border-color: var(--blue); color: #fff; background: rgba(28,92,230,0.08); transform: translateY(-1px); }
+
     /* ── Footer ───────────────────────────────────────────────────── */
     footer {
       background: var(--ink);
@@ -1147,8 +1212,8 @@
       <div class="process-steps">
         <div class="step">
           <div class="step-num">01</div>
-          <div class="step-title">Anfrage senden</div>
-          <div class="step-text">Füll das Formular aus — sag uns, was du hast (Wohnung oder Haus), und schlag einen Wunschtermin mit Datum & Uhrzeit vor.</div>
+          <div class="step-title">Termin buchen</div>
+          <div class="step-text">Wähle Wohnung oder Haus, such dir einen freien Slot im Kalender und bestätige. Sofortbestätigung per E-Mail.</div>
         </div>
         <div class="step">
           <div class="step-num">02</div>
@@ -1181,9 +1246,9 @@
       <div class="booking-grid">
         <div class="booking-info reveal">
           <div>
-            <div class="booking-info-title">Lass uns<br/>loslegen.</div>
+            <div class="booking-info-title">Direkt<br/>buchen.</div>
             <p class="booking-info-sub" style="margin-top:20px;">
-              Schick uns deine Anfrage mit allen Details. Wir schauen, ob der Wunschtermin frei ist — und melden uns innerhalb von 24h bei dir.
+              Wähle dein Objekt, such dir einen freien Termin aus und bestätige — fertig. Kein Hin und Her, keine Wartezeit.
             </p>
           </div>
           <div class="contact-item">
@@ -1217,80 +1282,56 @@
               </svg>
             </div>
             <div class="contact-item-text">
-              <strong>Terminwahl</strong>
-              Wunschdatum & Uhrzeit im Formular angeben
+              <strong>Sofort buchen</strong>
+              Wähle direkt einen freien Termin aus dem Kalender
             </div>
           </div>
         </div>
 
-        <div class="booking-form reveal" style="transition-delay:0.2s">
-          <div id="form-fields">
-            <div class="form-row">
-              <div class="form-group">
-                <label>Vorname</label>
-                <input type="text" id="f-first" placeholder="Dein Vorname" />
-              </div>
-              <div class="form-group">
-                <label>Nachname</label>
-                <input type="text" id="f-last" placeholder="Dein Nachname" />
-              </div>
+        <div class="cal-booking-cards reveal" style="transition-delay:0.2s">
+
+          <!-- Wohnung -->
+          <div class="cal-card">
+            <div class="cal-card-top">
+              <div class="cal-card-title">WOHNUNG</div>
+              <div class="cal-card-price">300<span>CHF / fix</span></div>
             </div>
-            <div class="form-group">
-              <label>E-Mail</label>
-              <input type="email" id="f-email" placeholder="deine@email.ch" />
-            </div>
-            <div class="form-group">
-              <label>Telefon (optional)</label>
-              <input type="tel" id="f-phone" placeholder="+41 79 000 00 00" />
-            </div>
-            <div class="form-group">
-              <label>Objekt-Typ</label>
-              <select id="f-type">
-                <option value="" disabled selected>Bitte auswählen</option>
-                <option value="wohnung">Wohnung — CHF 300</option>
-                <option value="haus">Haus — CHF 500</option>
-                <option value="anfrage">Spezialobjekt / Anfrage</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Adresse / Ort</label>
-              <input type="text" id="f-address" placeholder="Strasse, PLZ, Ort" />
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Wunschdatum</label>
-                <input type="date" id="f-date" />
-              </div>
-              <div class="form-group">
-                <label>Wunschzeit</label>
-                <input type="time" id="f-time" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Weitere Details (optional)</label>
-              <textarea id="f-msg" placeholder="Grösse der Wohnung, besondere Wünsche, wie viele Zimmer etc."></textarea>
-            </div>
-            <button class="form-submit" onclick="submitForm()">
-              Anfrage absenden
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M2 9h14M11 5l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <p class="cal-card-desc">Komplett-Scan deiner Wohnung — alle Zimmer, Bäder, Küche. Direktlink fertig innert 24h.</p>
+            <button class="cal-btn"
+              data-cal-link="tim-sager/wohnung-scan"
+              data-cal-namespace="wohnung-scan"
+              data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+              Termin buchen
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="3" width="12" height="12" rx="1" stroke="#fff" stroke-width="1.4"/>
+                <path d="M5 1v4M11 1v4M2 8h12" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
               </svg>
             </button>
-            <p class="form-note">
-              Mit dem Absenden stimmst du zu, dass wir dich bezüglich deiner Anfrage kontaktieren dürfen.<br/>
-              Kein Spam. Kein Abo. Nur eine Antwort von Tobi oder Tim.
-            </p>
           </div>
 
-          <div class="form-success" id="form-success">
-            <div class="success-icon">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <path d="M7 16l6 6 12-12" stroke="#4894FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+          <!-- Haus -->
+          <div class="cal-card">
+            <div class="cal-card-top">
+              <div class="cal-card-title">HAUS</div>
+              <div class="cal-card-price">500<span>CHF / fix</span></div>
             </div>
-            <h3>Anfrage gesendet!</h3>
-            <p>Danke! Wir melden uns innert 24 Stunden bei dir.<br/>Tobi oder Tim nimmt persönlich Kontakt auf.</p>
+            <p class="cal-card-desc">Vollständiger Scan über alle Etagen — inkl. Grundriss. Direktlink + Einbettungscode innert 24h.</p>
+            <button class="cal-btn"
+              data-cal-link="tim-sager/haus-scan"
+              data-cal-namespace="haus-scan"
+              data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+              Termin buchen
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="3" width="12" height="12" rx="1" stroke="#fff" stroke-width="1.4"/>
+                <path d="M5 1v4M11 1v4M2 8h12" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </button>
           </div>
+
+          <p style="font-family:var(--font-mono); font-size:11px; color:rgba(180,188,200,0.4); text-align:center; letter-spacing:0.06em; line-height:1.6;">
+            Kein Konto nötig · Sofortbestätigung per E-Mail · Kostenlos stornierbar
+          </p>
+
         </div>
       </div>
     </div>
@@ -1500,31 +1541,26 @@
     document.querySelectorAll('.stat-item').forEach(el => counterObs.observe(el));
 
 
-    /* ── Form submit ──────────────────────────────────────────────── */
-    function submitForm() {
-      const first   = document.getElementById('f-first').value.trim();
-      const last    = document.getElementById('f-last').value.trim();
-      const email   = document.getElementById('f-email').value.trim();
-      const type    = document.getElementById('f-type').value;
-      const address = document.getElementById('f-address').value.trim();
-      const date    = document.getElementById('f-date').value;
+  </script>
 
-      if (!first || !last || !email || !type || !address || !date) {
-        // Highlight missing fields
-        [['f-first',first],['f-last',last],['f-email',email],['f-type',type],['f-address',address],['f-date',date]]
-          .forEach(([id, val]) => {
-            const el = document.getElementById(id);
-            if (!val) {
-              el.style.borderColor = '#E63B1C';
-              setTimeout(() => el.style.borderColor = '', 3000);
-            }
-          });
-        return;
-      }
+  <!-- Cal.com embed -->
+  <script type="text/javascript">
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal; let ar = arguments;
+        if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; }
+        if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
 
-      document.getElementById('form-fields').style.display = 'none';
-      document.getElementById('form-success').classList.add('active');
-    }
+    Cal("init", "wohnung-scan", { origin: "https://app.cal.com" });
+    Cal.ns["wohnung-scan"]("ui", { hideEventTypeDetails: false, layout: "month_view" });
+
+    Cal("init", "haus-scan", { origin: "https://app.cal.com" });
+    Cal.ns["haus-scan"]("ui", { hideEventTypeDetails: false, layout: "month_view" });
   </script>
 </body>
 </html>
